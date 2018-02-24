@@ -1,7 +1,11 @@
-Yii2-PdfLabel
+Yii2-etcd
 =============
 
-Yii2 Widget to print labels on PDF
+Yii2 extension to access Etcd service.
+
+Etcd is a key-value store for distributed systems.
+
+
 
 Installation
 ------------
@@ -11,13 +15,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist weesee/yii2-pdflabel "*"
+php composer.phar require --prefer-dist weesee/yii2-etcd "*"
 ```
 
 or add
 
 ```
-"weesee/yii2-pdflabel": "*"
+"weesee/yii2-etcd": "*"
 ```
 
 to the require section of your `composer.json` file.
@@ -28,38 +32,42 @@ Usage
 
 Once the extension is installed, simply use it in your code by:
 
-View:
+controller:
 
 ```php 
-<?php
-    echo Html::a("Download Label-PDF",['site/downloadpdf']);
-?>
+
+    use weesee\etcd\Etcd;
+    
+    // setup connection to Etcd
+    // setting root means all key are appended to this path
+    $etcd = new \weesee\etcd\Etcd([
+        'etcdUrl' => 'http://192.168.1.164:49501',
+        'root'=>"/yii2-etcd-test/"
+    ]);
+    
+    // write key value pairs to etcd
+    if ($etcd->exists("name"))
+        $etcd->update("name","value");
+    else
+        $etcd->set("name","value");
+
+    // remove key
+    $etcd->removeKey("/path/name");
+    
+    // get keys with values in current directory
+    // as ArrayDataProvider. Simple to use for GidViews,...
+    $dataProvider = $etcd->getKeyValueAsDataProvider();
+
 ```
 
-Controller (assuming we have a DataProvider ```$labelDataProvider```
-(here: an ```ArrayDataProvider```) with models containing
-```name``` and ```town``` properties):
-
-    use weesee\pdflabel\PdfLabel;
-    ...
-    public function actionDownloadpdf()
-    $pdfLabel = new PdfLabel([
-        'labelName' => '5160',
-        'dataProvider' => $labelDataProvider,
-        'renderLabel' => function($model, $key, $index) {
-            return $model["name"]."\n".$model["town"];
-        },
-    ]);
-    return $pdfLabel->render();
-    
-        
+       
 Credits
 -------
 
 Thanks for your great job which this Yii2-extension is build on:
 
-* [Uskur/PdfLabel](https://github.com/Uskur/PdfLabel)
-* [tecnickcom/TCPDF](https://github.com/tecnickcom/TCPDF)
+* [Activecollab/etcd](https://github.com/activecollab/etcd.git)
+* [Coreos/etcd](https://github.com/coreos/etcd)
 
 Author / Licence
 ----------------
