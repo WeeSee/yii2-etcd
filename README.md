@@ -32,7 +32,6 @@ Usage
 
 Once the extension is installed, simply use it in your code by:
 
-controller:
 
 ```php 
 
@@ -40,23 +39,23 @@ controller:
     
     // setup connection to Etcd
     // setting root means all key are appended to this path
-    $etcd = new \weesee\etcd\Etcd([
-        'etcdUrl' => 'http://192.168.1.164:49501',
+    $etcd = new Etcd([
+        'etcdUrl' => 'http://127.0.0.1:2379',
         'root'=>"/yii2-etcd-test/"
     ]);
     
     // write key value pairs to etcd
     if ($etcd->exists("name"))
-        $etcd->update("name","value");
+        $etcd->update("name","value");  // updates "/yii2-etcd-test/name"
     else
-        $etcd->set("name","value");
+        $etcd->set("name","value");     // sets "/yii2-etcd-test/name"
 
     // remove key
-    $etcd->removeKey("/path/name");
+    $etcd->removeKey("name");           // removes "/yii2-etcd-test/name"
     
-    // get keys with values in current directory
+    // get keys with values in current directory "/yii2-etcd-test"
     // as ArrayDataProvider. Simple to use for GidViews,...
-    $dataProvider = $etcd->getKeyValueAsDataProvider();
+    $dataProvider = $etcd->getKeyValueAsDataProvider(); 
 
 ```
 
