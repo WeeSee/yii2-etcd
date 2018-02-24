@@ -1,0 +1,27 @@
+{
+    "name": "weesee/yii2-etcd",
+    "type": "yii2-extension",
+    "description": "Yii2 extension to work with ETCD key-value store from CoreOS",
+    "keywords": ["yii2", "etcd"],
+    "license": "GPL-3.0-only",
+    "support": {
+        "issues": "https://github.com/weesee/yii2-etcd/issues",
+        "source": "https://github.com/weesee/yii2-etcd"
+    },
+    "authors": [
+        {
+            "name": "WeeSee",
+            "email": "weesee@web.de"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "yiisoft/yii2": "~2.0.13",
+        "activecollab/etcd": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "weesee\\etcd\\": ""
+        }
+    }
+}
